@@ -1,0 +1,27 @@
+{
+  "name": "linkvault",
+  "version": "1.0.0",
+  "description": "LinkVault - Offline-first bookmark manager (Capacitor)",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Build complete - Web app ready for Capacitor'",
+    "sync": "npx cap sync",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "run:android": "npx cap run android",
+    "run:ios": "npx cap run ios"
+  },
+  "keywords": [
+    "bookmark",
+    "offline-first",
+    "capacitor",
+    "mobile"
+  ],
+  "author": "LinkVault",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  }
+}

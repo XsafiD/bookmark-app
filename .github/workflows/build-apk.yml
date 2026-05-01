@@ -1,0 +1,62 @@
+name: Build LinkVault APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        cd LinkVault-Capacitor
+        npm install
+
+    - name: Sync Capacitor
+      run: |
+        cd LinkVault-Capacitor
+        npx cap sync android
+
+    - name: Build APK
+      run: |
+        cd LinkVault-Capacitor/android
+        ./gradlew assembleDebug
+
+    - name: Get APK info
+      run: |
+        cd LinkVault-Capacitor/android/app/build/outputs/apk/debug
+        ls -lh
+        sha256sum app-debug.apk > app-debug.apk.sha256
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: linkvault-apk
+        path: LinkVault-Capacitor/android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
+
+    - name: Upload SHA256
+      uses: actions/upload-artifact@v3
+      with:
+        name: linkvault-sha256
+        path: LinkVault-Capacitor/android/app/build/outputs/apk/debug/app-debug.apk.sha256
+        retention-days: 30
+
+    - name: Create Release Summary
+      run: |
+        echo "## ✅ Build Successful!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Download" >> $GITHUB_STEP_SUMMARY
+        echo "- APK: Check Artifacts section below" >> $GITHUB_STEP_SUMMARY
+        echo "- SHA256: Check Artifacts section below" >> $GITHUB_STEP_SUMMARY
