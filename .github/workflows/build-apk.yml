@@ -1,9 +1,7 @@
 name: Build LinkVault APK
 
 on:
-  push:
-    branches: [ main, master ]
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:  # Manual trigger only - no automatic builds on push
 
 jobs:
   build:
