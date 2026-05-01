@@ -20,22 +20,20 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd LinkVault-Capacitor
         npm install
 
     - name: Sync Capacitor
       run: |
-        cd LinkVault-Capacitor
         npx cap sync android
 
     - name: Build APK
       run: |
-        cd LinkVault-Capacitor/android
+        cd android
         ./gradlew assembleDebug
 
     - name: Get APK info
       run: |
-        cd LinkVault-Capacitor/android/app/build/outputs/apk/debug
+        cd android/app/build/outputs/apk/debug
         ls -lh
         sha256sum app-debug.apk > app-debug.apk.sha256
 
@@ -43,14 +41,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: linkvault-apk
-        path: LinkVault-Capacitor/android/app/build/outputs/apk/debug/app-debug.apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
 
     - name: Upload SHA256
       uses: actions/upload-artifact@v4
       with:
         name: linkvault-sha256
-        path: LinkVault-Capacitor/android/app/build/outputs/apk/debug/app-debug.apk.sha256
+        path: android/app/build/outputs/apk/debug/app-debug.apk.sha256
         retention-days: 30
 
     - name: Create Release Summary
